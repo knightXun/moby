@@ -1,5 +1,5 @@
 FROM    alpine:3.4
-
+RUN     echo "http://mirrors.aliyun.com/alpine/v3.4/main/" > /etc/apk/repositories
 RUN     apk add -U git go bash curl gcc musl-dev make
 
 RUN     mkdir -p /go/src /go/bin /go/pkg
