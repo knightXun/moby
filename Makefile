@@ -45,7 +45,7 @@ GIT_BRANCH_CLEAN := $(shell echo $(GIT_BRANCH) | sed -e "s/[^[:alnum:]]/-/g")
 DOCKER_IMAGE := knightxun/docker-dev:1.12.3
 DOCKER_DOCS_IMAGE := docker-docs$(if $(GIT_BRANCH_CLEAN),:$(GIT_BRANCH_CLEAN))
 
-DOCKER_FLAGS := docker run --rm -i --privileged $(DOCKER_ENVS) $(DOCKER_MOUNT)
+DOCKER_FLAGS := docker run --rm -i --net=host --privileged $(DOCKER_ENVS) $(DOCKER_MOUNT)
 
 # if this session isn't interactive, then we don't want to allocate a
 # TTY, which would fail, but if it is interactive, we do want to attach
@@ -62,9 +62,7 @@ default: binary
 all: build ## validate all checks, build linux binaries, run all tests\ncross build non-linux binaries and generate archives
 	$(DOCKER_RUN_DOCKER) hack/make.sh
 
-#binary: build ## build the linux binaries
-#	$(DOCKER_RUN_DOCKER) hack/make.sh binary
-binary:
+binary: build ## build the linux binaries
 	$(DOCKER_RUN_DOCKER) hack/make.sh binary
 
 build: bundles
@@ -85,9 +83,7 @@ win: build ## cross build the binary for windows
 tgz: build ## build the archives (.zip on windows and .tgz\notherwise) containing the binaries
 	$(DOCKER_RUN_DOCKER) hack/make.sh dynbinary binary cross tgz
 
-#deb: build  ## build the deb packages
-#	$(DOCKER_RUN_DOCKER) hack/make.sh dynbinary build-deb
-deb:
+deb: build  ## build the deb packages
 	$(DOCKER_RUN_DOCKER) hack/make.sh dynbinary build-deb
 
 docs: ## build the docs

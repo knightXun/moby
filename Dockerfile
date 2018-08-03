@@ -24,5 +24,5 @@
 #
 
 FROM knightxun/docker-dev:1.12.3
-
+RUN  rm -rf /go/src/github.com/docker/docker
 COPY . /go/src/github.com/docker/docker

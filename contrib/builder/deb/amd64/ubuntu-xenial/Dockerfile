@@ -4,10 +4,25 @@
 
 FROM ubuntu:xenial
 
+RUN sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+RUN echo 'deb http://mirrors.aliyun.com/ubuntu/ xenial main' >> /etc/apt/sources.list
+RUN echo 'deb-src http://mirrors.aliyun.com/ubuntu/ xenial main' >> /etc/apt/sources.list
+RUN echo 'deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main' >> /etc/apt/sources.list
+RUN echo 'deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main' >> /etc/apt/sources.list
+RUN echo 'deb http://mirrors.aliyun.com/ubuntu/ xenial universe' >> /etc/apt/sources.list
+RUN echo 'deb-src http://mirrors.aliyun.com/ubuntu/ xenial universe' >> /etc/apt/sources.list
+RUN echo 'deb http://mirrors.aliyun.com/ubuntu/ xenial-updates universe' >> /etc/apt/sources.list
+RUN echo 'deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates universe' >> /etc/apt/sources.list
+RUN echo 'deb http://mirrors.aliyun.com/ubuntu/ xenial-security main' >> /etc/apt/sources.list
+RUN echo 'deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main' >> /etc/apt/sources.list
+RUN echo 'deb http://mirrors.aliyun.com/ubuntu/ xenial-security universe' >> /etc/apt/sources.list
+RUN echo 'deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security universe' >> /etc/apt/sources.list
+
+
 RUN apt-get update && apt-get install -y apparmor bash-completion btrfs-tools build-essential curl ca-certificates debhelper dh-apparmor dh-systemd git libapparmor-dev libdevmapper-dev libltdl-dev libseccomp-dev libsqlite3-dev pkg-config libsystemd-dev --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 ENV GO_VERSION 1.6.3
-RUN curl -fSL "https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz" | tar xzC /usr/local
+RUN curl -fSL "http://10.35.48.172:22222/test2-dongsl-node/go${GO_VERSION}.linux-amd64.tar.gz" | tar xzC /usr/local
 ENV PATH $PATH:/usr/local/go/bin
 
 ENV AUTO_GOPATH 1
